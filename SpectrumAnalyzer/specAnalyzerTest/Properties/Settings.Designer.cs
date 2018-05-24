@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SpectrumAnalyzer.Properties
+namespace specAnalyzerTest.Properties
 {
 
 

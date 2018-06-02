@@ -78,7 +78,6 @@ namespace specAnalyzerTest.ViewModels
                 avgpixels[4 * x + 1] /= bitmap.PixelHeight;
                 avgpixels[4 * x + 2] /= bitmap.PixelHeight;
             }
-            
             //get intensity and make points on plot
             for (int x = 0; x < bitmap.PixelWidth; x++)
                 {

@@ -39,6 +39,9 @@
         <Button Grid.Row="2" Grid.Column="1" Command="{Binding AnalyzeCommand}">
             <Image Source="../Images/16.png"></Image>
         </Button>
+        <Button Grid.Row="3" Grid.Column="1" Command="{Binding AnalyzeSampleCommand}">
+            <Image Source="../Images/16.png"></Image>
+        </Button>
         <TextBlock Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="3" FontWeight="Bold" FontSize="20">Spectrum</TextBlock>
         <Image Grid.Row ="1" Grid.RowSpan="2" Grid.Column="3" Grid.ColumnSpan="5" Source="{Binding PicPath}" Stretch="Uniform"></Image>
         <DataGrid Grid.Row="1" Grid.Column="9" Grid.ColumnSpan="3" Grid.RowSpan="7" AutoGenerateColumns="false" ItemsSource="{Binding Peaks}" IsReadOnly="True" SelectionMode="Single">

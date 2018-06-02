@@ -19,15 +19,22 @@ namespace specAnalyzerTest.ViewModels
     {
         public ICommand OpenPicCommand { get; set; }
         public ICommand AnalyzeCommand { get; set; }
+        public ICommand AnalyzeSampleCommand { get; set; }
         public string PicPath { get; set; }
         public List<DataPoint> PlotPoints { get; set; }
         private ObservableCollection<AnalyzedSpectrum> _peaks;
         public ObservableCollection<AnalyzedSpectrum> Peaks { get { return _peaks; } set { _peaks = value; NotifyPropertyChanged(nameof(Peaks)); } }
+        public ObservableCollection<AnalyzedSpectrum> SamplePeaks { get; set; }
+        public ObservableCollection<AnalyzedSpectrum> ReslutSpectrum { get; set; }
+        public bool firstAnalyze = true;
         public MainWindowViewModel()
         {
             OpenPicCommand = new BaseCommand(OpenPic, true);
             AnalyzeCommand = new BaseCommand(AnalyzeSpectrum, true);
+            AnalyzeSampleCommand = new BaseCommand(AnalyzeSample, true);
             Peaks = new ObservableCollection<AnalyzedSpectrum>();
+            SamplePeaks = new ObservableCollection<AnalyzedSpectrum>();
+            ReslutSpectrum = new ObservableCollection<AnalyzedSpectrum>();
             PlotPoints = new List<DataPoint>();
             PicPath = "null";
         }
@@ -50,6 +57,10 @@ namespace specAnalyzerTest.ViewModels
         {
             Peaks.Clear();
             PlotPoints.Clear();
+            if (firstAnalyze)
+            {
+                SamplePeaks.Clear();
+            }
             var uri = new Uri(PicPath);
             var bitmap = new BitmapImage(uri);
             int stride = bitmap.PixelWidth * 4;
@@ -80,17 +91,38 @@ namespace specAnalyzerTest.ViewModels
             //get intensity and make points on plot
             for (int x = 0; x < bitmap.PixelWidth; x++)
                 {
-                    var _spec = new AnalyzedSpectrum();
+                    var spec = new AnalyzedSpectrum();
                     int index = 4 * x;
                     int red = avgpixels[index];
                     int green = avgpixels[index + 1];
                     int blue = avgpixels[index + 2];
-                    _spec.PeakPixel = x;
-                    _spec.PeakIntensity = Math.Round(Math.Sqrt(0.299 * red * red + 0.587 * green * green + 0.114 * blue * blue),2);
-                    Peaks.Add(_spec);
-                    var _point = new DataPoint(_spec.PeakPixel, _spec.PeakIntensity);
+                    spec.PeakPixel = x;
+                    spec.PeakIntensity = Math.Round(Math.Sqrt(0.299 * red * red + 0.587 * green * green + 0.114 * blue * blue),2); // hsp color model
+                    Peaks.Add(spec);
+                    if (firstAnalyze)
+                    {
+                        SamplePeaks.Add(spec);
+                    }
+                    var _point = new DataPoint(spec.PeakPixel, spec.PeakIntensity);
                     PlotPoints.Add(_point);
              }
+            firstAnalyze = false;
+        }
+        public void AnalyzeSample()
+        {
+            ReslutSpectrum.Clear();
+            PlotPoints.Clear();
+            foreach (var peaks in Peaks.Zip(SamplePeaks, Tuple.Create))
+            {
+                var newspec = new AnalyzedSpectrum();
+                newspec.PeakIntensity = peaks.Item2.PeakIntensity - peaks.Item1.PeakIntensity;
+                newspec.PeakPixel = peaks.Item1.PeakPixel;
+                ReslutSpectrum.Add(newspec);
+                var _point = new DataPoint(newspec.PeakPixel, newspec.PeakIntensity);
+                PlotPoints.Add(_point);
+            }
+
+            firstAnalyze = true; //reset flag allows to make next measure
         }
     }
 

@@ -43,7 +43,6 @@ namespace specAnalyzerTest.ViewModels
             {
                 PicPath = op.FileName;
                 NotifyPropertyChanged(nameof(PicPath));
-
             }
         }
 

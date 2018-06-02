@@ -57,22 +57,42 @@ namespace specAnalyzerTest.ViewModels
             int size = bitmap.PixelHeight * stride;
             byte[] pixels = new byte[size];
             bitmap.CopyPixels(pixels, stride, 0);
-            int y = 0;
+            //make an average values
+            //1. get sum of each color components
+            int[] avgpixels = new int[stride];
+            for (int y = 0; y < bitmap.PixelHeight; y++)
+            {
+                for (int x = 0; x < bitmap.PixelWidth; x++)
+                {
+                    int index = y * stride + 4 * x;
+                    avgpixels[4 * x] += pixels[index];
+                    avgpixels[4 * x + 1] += pixels[index + 1];
+                    avgpixels[4 * x + 2] += pixels[index + 2];
+                }
+            }
+            //2. get an average values - smooth
             for (int x = 0; x < bitmap.PixelWidth; x++)
             {
-                var _spec = new AnalyzedSpectrum();
-                int index = y * stride + 4 * x; //по оси у 10ый ряд
-                byte red = pixels[index];
-                byte green = pixels[index + 1];
-                byte blue = pixels[index + 2];
-                byte alpha = pixels[index + 3];
-                _spec.PeakPixel = x;
-                _spec.PeakIntensity = Math.Sqrt(0.299 * red * red + 0.587 * green * green + 0.114 * blue * blue);
-                Peaks.Add(_spec);
-                var _point = new DataPoint(_spec.PeakPixel, _spec.PeakIntensity);
-                PlotPoints.Add(_point);
+                int index = bitmap.PixelHeight * stride + 4 * x;
+                avgpixels[4 * x] /= bitmap.PixelHeight;
+                avgpixels[4 * x + 1] /= bitmap.PixelHeight;
+                avgpixels[4 * x + 2] /= bitmap.PixelHeight;
             }
             
+            //get intensity and make points on plot
+            for (int x = 0; x < bitmap.PixelWidth; x++)
+                {
+                    var _spec = new AnalyzedSpectrum();
+                    int index = 4 * x;
+                    int red = avgpixels[index];
+                    int green = avgpixels[index + 1];
+                    int blue = avgpixels[index + 2];
+                    _spec.PeakPixel = x;
+                    _spec.PeakIntensity = Math.Round(Math.Sqrt(0.299 * red * red + 0.587 * green * green + 0.114 * blue * blue),2);
+                    Peaks.Add(_spec);
+                    var _point = new DataPoint(_spec.PeakPixel, _spec.PeakIntensity);
+                    PlotPoints.Add(_point);
+             }
         }
     }
 

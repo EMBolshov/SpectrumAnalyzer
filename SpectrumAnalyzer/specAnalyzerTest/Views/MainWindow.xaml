@@ -6,7 +6,7 @@
         xmlns:oxy="http://oxyplot.org/wpf"
         xmlns:local="clr-namespace:specAnalyzerTest"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="1200">
+        Title="MainWindow" Height="800" Width="500">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
@@ -33,10 +33,15 @@
             <ColumnDefinition Width="*"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Button Grid.Row="1" Grid.Column="1" Command="{Binding OpenPicCommand}">Take a pic</Button>
-        <Button Grid.Row="1" Grid.Column="2" Command="{Binding AnalyzeCommand}">Analyze</Button>
-        <Image Grid.Row ="3" Grid.RowSpan="3" Grid.Column="1" Grid.ColumnSpan="3" Source="{Binding PicPath}" Stretch="Uniform"></Image>
-        <DataGrid Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="2" Grid.RowSpan="7" AutoGenerateColumns="false" ItemsSource="{Binding Peaks}" IsReadOnly="True" SelectionMode="Single">
+        <Button Grid.Row="1" Grid.Column="1" Command="{Binding OpenPicCommand}">
+            <Image Source="../Images/17.png"></Image>
+        </Button>
+        <Button Grid.Row="2" Grid.Column="1" Command="{Binding AnalyzeCommand}">
+            <Image Source="../Images/16.png"></Image>
+        </Button>
+        <TextBlock Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="3" FontWeight="Bold" FontSize="20">Spectrum</TextBlock>
+        <Image Grid.Row ="1" Grid.RowSpan="2" Grid.Column="3" Grid.ColumnSpan="5" Source="{Binding PicPath}" Stretch="Uniform"></Image>
+        <DataGrid Grid.Row="1" Grid.Column="9" Grid.ColumnSpan="3" Grid.RowSpan="7" AutoGenerateColumns="false" ItemsSource="{Binding Peaks}" IsReadOnly="True" SelectionMode="Single">
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="Pixel">
                     <DataGridTemplateColumn.CellTemplate>
@@ -54,7 +59,7 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <oxy:Plot Grid.Row="1" Grid.Column="7" Grid.RowSpan="7" Grid.ColumnSpan="4" Title="Brightness distribution" >
+        <oxy:Plot Grid.Row="3" Grid.Column="2" Grid.RowSpan="3" Grid.ColumnSpan="6" Title="Brightness distribution" >
            <oxy:Plot.Series>
                 <oxy:LineSeries  ItemsSource="{Binding PlotPoints}"></oxy:LineSeries>
             </oxy:Plot.Series>

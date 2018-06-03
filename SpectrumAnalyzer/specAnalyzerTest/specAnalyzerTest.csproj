@@ -69,6 +69,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Models\AnalyzedSpectrum.cs" />
+    <Compile Include="Models\SampleSpectrum.cs" />
     <Compile Include="ViewModels\BaseCommand.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
@@ -104,6 +105,14 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\17.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\15.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

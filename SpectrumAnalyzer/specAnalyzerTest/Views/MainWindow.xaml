@@ -6,39 +6,51 @@
         xmlns:oxy="http://oxyplot.org/wpf"
         xmlns:local="clr-namespace:specAnalyzerTest"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="1200">
+        Title="MainWindow" Height="800" Width="510">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="2*"></RowDefinition>
+            <RowDefinition Height="2*"></RowDefinition>
+            <RowDefinition Height="2*"></RowDefinition>
+            <RowDefinition Height="2*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="2*"></RowDefinition>
+            <RowDefinition Height="2*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Button Grid.Row="1" Grid.Column="1" Command="{Binding OpenPicCommand}">Take a pic</Button>
-        <Button Grid.Row="1" Grid.Column="2" Command="{Binding AnalyzeCommand}">Analyze</Button>
-        <Image Grid.Row ="3" Grid.RowSpan="3" Grid.Column="1" Grid.ColumnSpan="3" Source="{Binding PicPath}" Stretch="Uniform"></Image>
-        <DataGrid Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="2" Grid.RowSpan="7" AutoGenerateColumns="false" ItemsSource="{Binding Peaks}" IsReadOnly="True" SelectionMode="Single">
+        <TextBlock Grid.Row="1" TextAlignment="Center" VerticalAlignment="Center">1.</TextBlock>
+        <TextBlock Grid.Row="2" TextAlignment="Center" VerticalAlignment="Center">2.</TextBlock>
+        <Button Grid.Row="1" Grid.Column="1" Command="{Binding OpenPicCommand}">
+            <Image Source="../Images/17.png"></Image>
+        </Button>
+        <Button Grid.Row="2" Grid.Column="1" Command="{Binding AnalyzeCommand}" ToolTip="Measure spectrum. First time for base signal, second time for sample absorbtion.">
+            <Image Source="../Images/16.png"></Image>
+        </Button>
+        <TextBlock Grid.Row="3" TextAlignment="Center" VerticalAlignment="Center">3.</TextBlock>
+        <Button Grid.Row="3" Grid.Column="1" Command="{Binding AnalyzeSampleCommand}" ToolTip="Calculate the difference between spectrum.">
+            <Image Source="../Images/15.png"></Image>
+        </Button>
+        <TextBlock Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="3" FontWeight="Bold" FontSize="20" HorizontalAlignment="Center">Spectrum</TextBlock>
+        <Image Grid.Row ="1" Grid.RowSpan="2" Grid.Column="3" Grid.ColumnSpan="5" Source="{Binding PicPath}" Stretch="Uniform"></Image>
+        <DataGrid Grid.Row="1" Grid.Column="9" Grid.ColumnSpan="3" Grid.RowSpan="7" AutoGenerateColumns="false" ItemsSource="{Binding Peaks}" IsReadOnly="True" SelectionMode="Single">
             <DataGrid.Columns>
-                <DataGridTemplateColumn Header="Pixel">
+                <DataGridTemplateColumn Header="Wavelength">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Label Content="{Binding PeakPixel}" ></Label>
@@ -54,10 +66,29 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <oxy:Plot Grid.Row="1" Grid.Column="7" Grid.RowSpan="7" Grid.ColumnSpan="4" Title="Brightness distribution" >
+        <oxy:Plot Grid.Row="3" Grid.Column="2" Grid.RowSpan="3" Grid.ColumnSpan="6" Title="Brightness distribution" >
            <oxy:Plot.Series>
                 <oxy:LineSeries  ItemsSource="{Binding PlotPoints}"></oxy:LineSeries>
             </oxy:Plot.Series>
         </oxy:Plot>
+        <TextBlock Grid.Row="6" Grid.Column="3" Grid.ColumnSpan="5" FontWeight="Bold" FontSize="20" HorizontalAlignment="Center">Signal decrement peaks</TextBlock>
+        <DataGrid Grid.Row="7" Grid.Column="3" Grid.ColumnSpan="5" Grid.RowSpan="2" AutoGenerateColumns="false" ItemsSource="{Binding Result}" IsReadOnly="True" SelectionMode="Single">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Wavelenght">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding PeakPixel}" ></Label>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Signal decrement">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding PeakIntensity}" ></Label>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Window>
